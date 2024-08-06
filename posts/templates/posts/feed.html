@@ -184,7 +184,7 @@
                 {% endfor %}
                 <div class="add-comment">
                     <form method="post">
-                        {% csrf_token %}
+                        <!--{ %csrf_token% } --> 
                         <textarea name="body" rows="3" placeholder="Add a comment..."></textarea>
                         <input type="hidden" name="post_id" value="{{ post.id }}">
                         <button type="submit">Comment</button>
