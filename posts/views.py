@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostCreateForm,CommentForm
 from .models import Post
 from .models import Post
-
+from django.views.decorators.csrf import csrf_exempt
 
 from django.http import JsonResponse
+@csrf_exempt
 @login_required
 def post_create(request):
     if request.method == "POST":
@@ -22,7 +23,7 @@ def post_create(request):
 
 
 
-
+@csrf_exempt
 def feed(request):
     if request.method == 'POST':
         comment_form=CommentForm(data=request.POST)
@@ -40,7 +41,7 @@ def feed(request):
     return render(request,'posts/feed.html',{'posts':posts,'logged_user':logged_user,'comment_form':comment_form})
 
 
-
+@csrf_exempt
 def like_post(request):
     post_id = request.POST.get('post_id')
     post = get_object_or_404(Post, id=post_id)

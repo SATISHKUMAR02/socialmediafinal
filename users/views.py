@@ -6,7 +6,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import UserEditForm,ProfileEditForm,UserRegistrationForm,LoginForm
 from posts.models import Post
+#added additinal decorators
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
+@csrf_exempt
 def user_login(request):
     if request.method == "POST":
         form=LoginForm(request.POST)
@@ -23,6 +27,7 @@ def user_login(request):
         
         form=LoginForm
         return render(request,'users/login.html',{'form':form})
+@csrf_exempt
 @login_required
 def index(request):
     # to access currently logged in user
@@ -30,7 +35,7 @@ def index(request):
     posts=Post.objects.filter(user=current_user)
     profile=Profile.objects.filter(user=current_user).first()
     return render(request,'users/index.html',{'posts':posts,'profile':profile})
-
+@csrf_exempt
 def register(request):
     if request.method =="POST":
         user_form=UserRegistrationForm(request.POST)
@@ -45,6 +50,7 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request,'users/register.html',{'user_form':user_form})
 
+@csrf_exempt
 @login_required
 def edit(request):
     if request.method == "POST":
@@ -60,8 +66,7 @@ def edit(request):
 
 
 
-
-
+@csrf_exempt
 def user_logout(request):
    
     logout(request)
